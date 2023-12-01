@@ -2,6 +2,7 @@ package com.cxylk.chatglm.session;
 
 import com.cxylk.chatglm.model.ChatCompletionRequest;
 import com.cxylk.chatglm.model.ChatCompletionResponse;
+import com.cxylk.chatglm.model.ChatCompletionResponseSse;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 
@@ -21,12 +22,13 @@ public interface OpenAiSession {
      */
     EventSource completions(ChatCompletionRequest chatCompletionRequest, EventSourceListener listener);
 
+
     /**
      * 异步执行sse，执行结束后会打印完整的结果
      * @param chatCompletionRequest
      * @return
      */
-    CompletableFuture<String> completions(ChatCompletionRequest chatCompletionRequest);
+    CompletableFuture<String> completionsSseAsync(ChatCompletionRequest chatCompletionRequest);
 
     /**
      * 同步调用，直接返回结果

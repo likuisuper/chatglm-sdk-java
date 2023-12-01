@@ -2,6 +2,7 @@ package com.cxylk.chatglm;
 
 import com.cxylk.chatglm.model.ChatCompletionRequest;
 import com.cxylk.chatglm.model.ChatCompletionResponse;
+import com.cxylk.chatglm.model.ChatCompletionResponseSse;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

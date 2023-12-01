@@ -1,5 +1,6 @@
 package com.cxylk.chatglm.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**

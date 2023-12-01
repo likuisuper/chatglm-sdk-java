@@ -53,7 +53,7 @@ public class ApiTest {
     public void test_completions() throws InterruptedException {
         ChatCompletionRequest request = new ChatCompletionRequest();
         request.setModel(Model.CHATGLM_TURBO);
-        request.setIncremental(false);
+        request.setIncremental(true);
         request.setPrompt(new ArrayList<ChatCompletionRequest.Prompt>() {
             {
                 add(ChatCompletionRequest.Prompt.builder()
@@ -83,11 +83,13 @@ public class ApiTest {
 //                        .build());
             }
         });
+        StringBuilder messages = new StringBuilder();
         openAiSession.completions(request, new EventSourceListener() {
             @Override
             public void onEvent(EventSource eventSource, @Nullable String id, @Nullable String type, String data) {
                 ChatCompletionResponseSse response = JSON.parseObject(data, ChatCompletionResponseSse.class);
-                log.info("测试结果 onEvent：{}", response.getData());
+                //log.info(response.getData());
+                messages.append(response.getData());
                 // type 消息类型，add 增量，finish 结束，error 错误，interrupted 中断
                 if (EventType.finish.getCode().equals(type)) {
                     log.info("[输出结束] Tokens {}", JSON.toJSONString(response.getMeta()));
@@ -97,9 +99,9 @@ public class ApiTest {
             @Override
             public void onClosed(EventSource eventSource) {
                 log.info("对话完成");
+                log.info(messages.toString());
             }
         });
-
         new CountDownLatch(1).await();
     }
 
@@ -115,7 +117,7 @@ public class ApiTest {
                         .build());
             }
         });
-        CompletableFuture<String> future = openAiSession.completions(request);
+        CompletableFuture<String> future = openAiSession.completionsSseAsync(request);
         String result = future.get();
         log.info("测试结果：{}",result);
     }

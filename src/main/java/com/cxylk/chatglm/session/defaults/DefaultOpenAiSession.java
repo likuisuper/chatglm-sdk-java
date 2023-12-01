@@ -53,7 +53,7 @@ public class DefaultOpenAiSession implements OpenAiSession {
     }
 
     @Override
-    public CompletableFuture<String> completions(ChatCompletionRequest chatCompletionRequest) {
+    public CompletableFuture<String> completionsSseAsync(ChatCompletionRequest chatCompletionRequest) {
         //用于执行异步任务并获取结果
         CompletableFuture<String> future = new CompletableFuture<>();
         StringBuffer dataBuffer = new StringBuffer();
